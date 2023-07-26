@@ -1,0 +1,2 @@
+db username = burhandundar2399
+db pass = e3LFXjqHibOt4pQp
