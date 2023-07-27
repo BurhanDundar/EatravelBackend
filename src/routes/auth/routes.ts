@@ -1,10 +1,10 @@
 import express from 'express';
-import { _signup,_login,_forgotPassword,_updatePassword } from './post';
+import { _register,_login,_forgotPassword,_updatePassword } from './post';
 
 export const router = express.Router();
 
 router
-  .post('/signup', _signup)
+  .post('/register', _register)
   .post('/login', _login)
   .post('/forgotPassword', _forgotPassword)
   .post('/updatePassword', _updatePassword)

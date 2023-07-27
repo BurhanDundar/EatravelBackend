@@ -1,11 +1,11 @@
 import express from "express";
 import { Crypt } from "../../services/guard";
-import { signup, checkEmail, forgotPassword, getHashedPassword, updatePassword } from "../../models/auth";
+import { register, checkEmail, forgotPassword, getHashedPassword, updatePassword } from "../../models/auth";
 import { isUsernameExist } from "../../models/users";
 import { ServicesRequest } from "../../services/microServices";
 var randomNumber = require("random-number-csprng");
 
-export const _signup = async (req: express.Request, res: express.Response) => {
+export const _register = async (req: express.Request, res: express.Response) => {
   const crypt = new Crypt();
   let [fullname, username, email, password, repassword] = [
     req.body.fullname,
@@ -34,13 +34,13 @@ export const _signup = async (req: express.Request, res: express.Response) => {
     return;
   }
 
-  const register = await signup({
+  const registerResponse = await register({
     fullname,
     username,
     hashedPassword,
     email,
   });
-  if (register.status == "ok") {
+  if (registerResponse.status == "ok") {
     let data= await ServicesRequest(
       null, // -> Express.request
       null, // -> Express.response
@@ -78,15 +78,20 @@ export const _login = async (req: express.Request, res: express.Response) => {
     const comparePassword = await crypt.compareHashes(password, data.password);
     if (comparePassword) {  
       try {
-        res.send();
+        res.send({
+          status: "ok",
+          msg: "success",
+          _id: data._id,
+          fullname: data.fullname,
+          username: data.username
+        });
       } catch (ex) {
         res.send({
           status: "error",
           msg: "Invalid login info",
           _id: "",
           fullname: "",
-          userName: "",
-          userId: ""
+          userName: ""
         });
       }
     } else {

@@ -14,6 +14,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import { router as userRouter } from './routes/users/routes';
+import { router as authRouter } from './routes/auth/routes';
 
 export const app = express();
 const http = require("http");
@@ -24,6 +25,7 @@ app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(cors())
   .use('/users', userRouter)
+  .use('/auth', authRouter)
 
 app.get('/', (req, res) => {
   res.send('eatravel anasayfa');

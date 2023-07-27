@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { mongodbRead, mongodbWrite } from '../app';
 import { IUSER } from './users';
 
-export interface ISIGNUP {
+export interface IREGISTER {
   "fullname": string;
   "username": string;
   "hashedPassword": string;
@@ -12,19 +12,19 @@ export interface ISIGNUP {
 const collectionRead = mongodbRead.collection('users');
 const collectionWrite = mongodbWrite.collection('users');
 
-export const signup = async (signupInfo: ISIGNUP) => {
+export const register = async (registerInfo: IREGISTER) => {
   const emailRegex = new RegExp('^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9_\-]@[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]\.[a-zA-Z]+$', 'gm');
-  if (emailRegex.test(signupInfo.email)) {
+  if (emailRegex.test(registerInfo.email)) {
   }
 
-  const emailExists = await userEmailExists(signupInfo.email);
+  const emailExists = await userEmailExists(registerInfo.email);
   if (emailExists == null) {
 
     const userData: IUSER = {
-      "fullname": signupInfo.fullname,
-      "username": signupInfo.username,
-      "email": signupInfo.email,
-      "password": signupInfo.hashedPassword,
+      "fullname": registerInfo.fullname,
+      "username": registerInfo.username,
+      "email": registerInfo.email,
+      "password": registerInfo.hashedPassword,
       "createdAt": new Date().getTime(),
       "updatedAt": new Date().getTime()
     }
